@@ -1,0 +1,292 @@
+/* line 1, ../sass/_main.scss */
+.colorful {
+  color: #bb8833;
+}
+
+/* line 5, ../sass/_main.scss */
+.top-header {
+  margin-right: 30px;
+}
+
+/* line 9, ../sass/_main.scss */
+.h2-override {
+  margin-top: 0px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* line 15, ../sass/_main.scss */
+.max600 {
+  max-width: 600px;
+}
+
+/* line 18, ../sass/_main.scss */
+.morepadded {
+  padding: 50px 100px;
+}
+
+/* line 21, ../sass/_main.scss */
+.user-data {
+  padding-top: 30px;
+  font-family: verdana;
+  font-size: 16px;
+  font-weight: lighter;
+  border: 2px solid blue;
+  border-radius: 10px;
+  width: 80%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  background-color: #c4d0d6;
+  color: #3660b0;
+}
+
+/* line 39, ../sass/_main.scss */
+.user-image {
+  padding-top: 20px;
+  align: left;
+}
+
+/* line 44, ../sass/_main.scss */
+.logo {
+  padding-top: 200px;
+  height: 115px;
+  /*height of your image*/
+  content: url("../images/logo.png");
+  padding: 10px;
+  /*if your want to padding */
+}
+
+/* line 52, ../sass/_main.scss */
+.tagline {
+  padding-top: 100px;
+  margin: 10px 15px 15px 300px;
+  height: 60px;
+  /*height of your image*/
+  content: url("../images/tagline.png");
+  padding: 10px;
+  /*if your want to padding */
+}
+
+/* line 60, ../sass/_main.scss */
+.fitbit-icon {
+  padding-left: 100px;
+  max-width: 50%;
+}
+
+/* line 65, ../sass/_main.scss */
+.square {
+  height: 150px;
+  width: 150px;
+}
+
+/* line 70, ../sass/_main.scss */
+.small_square {
+  height: 50px;
+  width: 50px;
+}
+
+/* line 75, ../sass/_main.scss */
+.big_square {
+  height: 325px;
+  width: 300px;
+}
+
+/* line 80, ../sass/_main.scss */
+.pad_top {
+  padding-top: 10px;
+  width: 150px;
+}
+
+/* line 85, ../sass/_main.scss */
+.pad_left_top {
+  padding-left: 30px;
+  padding-top: 30px;
+}
+
+/* line 90, ../sass/_main.scss */
+.pad_left {
+  padding-left: 70px;
+}
+
+/* line 94, ../sass/_main.scss */
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* line 100, ../sass/_main.scss */
+.background {
+  fill: #FFFFFF;
+  fill-opacity: 0.01;
+}
+
+/* line 105, ../sass/_main.scss */
+.component {
+  fill: #e1e1e1;
+}
+
+/* line 109, ../sass/_main.scss */
+.component .label {
+  font-family: Myriad, "Helvetic Neue", Helvetica, Arial;
+  text-anchor: middle;
+  fill: #0000FF;
+}
+
+/* line 115, ../sass/_main.scss */
+.arc {
+  stroke-weight: 0.1;
+  fill: #4e8fff;
+}
+
+/* line 121, ../sass/_main.scss */
+.arc2 {
+  stroke-weight: 0.1;
+  fill: #3660b0;
+}
+
+/* line 127, ../sass/_main.scss */
+.label {
+  font-family: Myriad, "Helvetic Neue", Helvetica, Arial;
+  text-anchor: middle;
+}
+
+/* line 132, ../sass/_main.scss */
+.radial-svg {
+  margin-left: 70px;
+  height: 300px;
+  width: 300px;
+}
+
+/* line 138, ../sass/_main.scss */
+#test .arc2 {
+  stroke-weight: 0.1;
+  fill: #3660b0;
+}
+
+/* line 143, ../sass/_main.scss */
+#outer {
+  background: #FFFFFF;
+  border-radius: 5px;
+  color: #000;
+}
+
+/* line 148, ../sass/_main.scss */
+.selectedRadial {
+  border-radius: 3px;
+  background: #f4f4f4;
+  color: #000;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(200, 200, 200, 0.85);
+}
+
+/* line 157, ../sass/_main.scss */
+.radial {
+  border-radius: 3px;
+  background: #FFFFFF;
+  color: #000;
+}
+
+/* line 163, ../sass/_main.scss */
+.modebar {
+  display: none;
+}
+
+/* line 167, ../sass/_main.scss */
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
+/* line 171, ../sass/_main.scss */
+.small_img {
+  padding-top: 200px;
+  height: 150px;
+  /*height of your image*/
+  padding: 10px;
+  /*if your want to padding */
+}
+
+/* line 176, ../sass/_main.scss */
+.extra-pad {
+  padding-top: 100px;
+  color: #297bfe;
+}
+
+/* line 180, ../sass/_main.scss */
+.img-circle {
+  border-radius: 15%;
+}
+
+/* line 183, ../sass/_main.scss */
+.padding_right {
+  padding-right: 15px;
+}
+
+/* line 187, ../sass/_main.scss */
+.circle {
+  padding-top: 200px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  font-size: 10px;
+  color: #fff;
+  line-height: 100px;
+  text-align: center;
+  background: #000;
+}
+
+/* line 199, ../sass/_main.scss */
+.fr {
+  text-align: center;
+}
+
+/* line 203, ../sass/_main.scss */
+.row1 {
+  height: 52px;
+  width: 100%;
+  background: #ffcc99;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: table;
+  table-layout: fixed;
+}
+
+/* line 212, ../sass/_main.scss */
+.friend_data_row {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 120%;
+  max-width: 130px;
+  width: 2%;
+}
+
+/* line 219, ../sass/_main.scss */
+.friend_data_bold {
+  font-weight: bold;
+}
+
+/* line 222, ../sass/_main.scss */
+.h5_o1 {
+  margin-left: 95px;
+}
+
+/* line 225, ../sass/_main.scss */
+.h5_o2 {
+  margin-left: 70px;
+}
+
+/* line 228, ../sass/_main.scss */
+.fr_name {
+  font-weight: bold;
+  position: relative;
+  top: -30px;
+  left: -40px;
+}
+
+/* line 234, ../sass/_main.scss */
+.fr_thumb {
+  position: relative;
+  left: 5px;
+}

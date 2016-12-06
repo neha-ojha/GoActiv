@@ -1,0 +1,124 @@
+timestamp: 2016-12-06T09:20:03.984042
+CREATE TABLE web2py_session_Project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    locked CHAR(1),
+    client_ip CHAR(64),
+    created_datetime TIMESTAMP,
+    modified_datetime TIMESTAMP,
+    unique_key CHAR(64),
+    session_data BLOB
+);
+success!
+timestamp: 2016-12-06T09:20:03.990091
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2016-12-06T09:20:03.992479
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-12-06T09:20:03.994657
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-12-06T09:20:03.996647
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-12-06T09:20:03.999965
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-12-06T09:20:04.002190
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2016-12-06T09:20:04.006600
+CREATE TABLE steps_t(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_email CHAR(512),
+    d0 INTEGER,
+    d1 INTEGER,
+    d2 INTEGER,
+    d3 INTEGER,
+    d4 INTEGER,
+    d5 INTEGER,
+    d6 INTEGER,
+    week_total INTEGER,
+    lifetime INTEGER,
+    last_updated_day INTEGER,
+    updated_on TIMESTAMP
+);
+success!
+timestamp: 2016-12-06T09:20:04.009083
+CREATE TABLE weight_t(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_email CHAR(512),
+    weight DOUBLE,
+    created_on TIMESTAMP
+);
+success!
+timestamp: 2016-12-06T09:20:04.011457
+CREATE TABLE user_t(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_email CHAR(512),
+    image BLOB,
+    dob DATE,
+    sex CHAR(512),
+    height DOUBLE,
+    steps_target INTEGER,
+    weight_target DOUBLE,
+    weight DOUBLE,
+    created_on TIMESTAMP,
+    updated_on TIMESTAMP
+);
+success!
+timestamp: 2016-12-06T09:20:04.013794
+CREATE TABLE fitbit_user_t(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_email CHAR(512),
+    fitbit_user_id CHAR(512),
+    access_token CHAR(512),
+    refresh_token CHAR(512),
+    expires_at DOUBLE
+);
+success!
+timestamp: 2016-12-06T09:20:04.016001
+CREATE TABLE friends_t(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_email CHAR(512),
+    friend_email CHAR(512),
+    accepted CHAR(1)
+);
+success!

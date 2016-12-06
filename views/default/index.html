@@ -1,0 +1,344 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="{{=URL('static', 'js/radial.js')}}"></script>
+<script>
+    var get_user_data_url = "{{=URL('api', 'get_user_data', user_signature=True)}}";
+    var add_user_data_url = "{{=URL('api', 'add_user_data', user_signature=True)}}";
+    var get_user_list_url = "{{=URL('api', 'get_user_list', user_signature=True)}}";
+    var add_steps_data_url = "{{=URL('api', 'add_steps_data', user_signature=True)}}";
+    var add_friend_url = "{{=URL('api', 'add_friend', user_signature=True)}}";
+    var get_friend_data_url = "{{=URL('api', 'get_friend_data', user_signature=True)}}";
+    var accept_friend_url = "{{=URL('api', 'accept_friend', user_signature=True)}}";
+    var deny_friend_url = "{{=URL('api', 'deny_friend', user_signature=True)}}";
+</script>
+{{end}}
+
+<div class="main_content">
+    <div id="vue-div" class="display:none">
+
+        <template v-if="logged_in", key="login">
+            <template v-if="user_data_present", key="user_data_avail">
+                <div v-if="page!='edit_profile'" class="container">
+                    <div class="quarter" id="left-bar">
+                        <div class="pad_left_top middle threequarters">
+                            <div class="square">
+                                <img :src="user_data.image"/>
+                            </div>
+                            <div class="pad_top" >
+                                <a class="btn teal fill" v-on:click="goto('activity')">Activity</a>
+                                <a class="btn teal fill" v-on:click="goto('friends')">Friends</a>
+                                <a class="btn teal fill" v-on:click="goto('profile')">My Profile</a>
+                                <a class="btn teal fill" v-on:click="goto('edit_profile')">Edit Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="page=='activity'" class="container threequarters middle max900" id="show-radial">
+                        <div v-if="!fitbit_linked">
+                          {{
+                             days = range(7)
+                             import time
+                             day = time.gmtime().tm_wday
+                             weekdays = days[day+1:] + days[:day+1]
+                             weekdays.reverse()
+                             day_names = ["Mon", "Tue", "Wed", "Thurs", "Fri",
+                                          "Sat", "Sun"]
+                             
+                          }}
+                          <h5>Update Daily Steps</h5>
+                          <form id="steps_form" action="#" v-on:submit.prevent="add_steps_data" enctype="multipart/form-data" method="post">
+                          Day: 
+                          <select name="dotw" v-model="input_day">
+                          {{ for (idx, wd) in enumerate(weekdays):}}
+                              {{ if idx == 0: }}
+                              <option selected value="{{=wd}}"> {{=day_names[wd]}}
+                              </option>
+                              {{ else: }}
+                              <option value="{{=wd}}"> {{=day_names[wd]}}
+                              </option>
+                              {{pass}}
+                          {{pass}}
+                          </select>
+                          Steps: 
+                          <input type="number" name="steps" v-model.lazy="input_steps">  
+                        <div class="form-group" id="submit_steps_form__row">
+                            <div align="right">
+                                <input class="post-button" id="add_steps_form_submit" type="submit" value="Submit" />
+                            </div>
+                        </div>
+                        </form>
+			</div>
+                        <div id="daily_steps_radial" class="half"> <h5 class="h5_o1"> Today's Steps  </h5></div>
+                        <div id="weekly_steps_radial" class="half"> <h5 class="h5_o2"> Weekly Average Steps</h5></div>
+                        <div class="half" id="show-bar"> </div>
+                        <div class="half" id="show-weight-bar"> </div>
+                    </div>
+
+                    <div v-if="page=='friends'" class="container threequarters" id="show-friends">
+                       <div class="threequarters" id="show-friends-data">
+                         <div class="container" id="my-data">
+                           <div class="half" id="show-my-today-bar"> </div>
+                           <div class="half" id="show-my-week-bar"> </div>
+                         </div>
+                         <div class="container" id="only-friends">
+                         <h5> Friends </h5>
+                         <div class="friend" v-for="friend in friend_data">
+                           <div class="row1" v-on:click="compare_friend(friend)">
+                           <span class="friend_data_row"> <img class="small_square":src="friend.image"/> </span>
+                             <span class="friend_data_row friend_data_bold">${ friend.user_name } </span>
+                             <span class="friend_data_row">${ friend.today } </span>
+                             <span class="friend_data_row">${ friend.weekly } </span>
+                         </div>
+                         </div>
+                         </div>
+                       </div>
+                       <div class="quarter" id="add-and-request">
+                       <div class="container pad_left_top" id="show-add-friends">
+                         <form id="add_friend_form" action="#" v-on:submit.prevent="add_friend" enctype="multipart/form-data" method="post"> 
+                           <div class="ui-widget">
+  			     <label for="find_friends">Find Friends: </label>
+  			     <input id="find_friends">
+                             <div class="form-group" id="submit_add_friend_form__row">
+                               <div align="right">
+                                  <input class="post-button" id="add_friend_form_submit" type="submit" value="Add" />
+                               </div>
+                             </div>
+                           </div>
+                         </form>
+		       </div>
+                       <div class="container pad_left_top" id="show-friend-reqs">
+                         <label class="fr"> Friend Requests </label>
+                         <div class="request" v-for="request in friend_requests">
+                           <span> <img class="small_square":src="request.image"/> </span>
+                           <span class="fr_thumb"> <i class="fa fa-thumbs-o-up fa-lg" v-on:click="accept_friend(request.user_email)"> </i> 
+                                 <i class="fa fa-thumbs-o-down fa-lg" v-on:click="deny_friend(request.user_email)"> </i> </span>
+                           <span class="fr_name" style="font-weight: bold;">${ request.user_name } </span>
+                         </div>
+                       </div>
+                       </div>
+
+
+                    </div>
+
+                    <div v-if="page=='profile'" class="half middle max900 padded" id="show-profile-data">
+                        <div class="morepadded">
+                        <div class="user-data">
+                            Name : <span v-text="user_data.user_name" ></span>
+                        </div>
+
+                        <div class="user-data">
+                            Date of birth :  <span v-text="user_data.dob" ></span>
+                        </div>
+
+                        <div class="user-data">
+                            Gender :  <span v-text="user_data.sex" ></span>
+                        </div>
+
+                        <div class="user-data">
+                            Weight : <span v-text="user_data.weight" > </span> pounds
+                        </div>
+
+                        <div class="user-data">
+                            Height : <span v-text="user_data.height" ></span> inches
+                        </div>
+
+                        <div class="user-data">
+                            Target Steps  : <span v-text="user_data.steps_target" ></span>
+                        </div>
+
+                        <div class="user-data">
+                            Target Weight  : <span v-text="user_data.weight_target" ></span>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div v-if="page=='profile'" class="quarter" id="lifetime">
+                        <div class="container">
+                            <figure class="center">    
+                                <img class= "" src="../static/images/badge_week.png" style="width:270px;height:30px;">
+                            </figure>    
+
+
+                        <div v-if="steps.week_avg_s < 4999" id="weekly_badge">
+                            <figure class ="center">
+                                <img class= "img-circle" src="../static/images/bronze.png" style="width:50px;height:100px;">
+                                <h6 class="rounded">Average Steps : ${steps.week_avg_s}</h6>
+                            </figure>
+
+                        </div>
+
+                        <div v-if="steps.week_avg_s > 5000 && steps.week_avg_s < 9999" id="weekly_badge">
+                            <figure class ="center">
+                                <img class= "img-circle"src="../static/images/silver.png" style="width:50px;height:100px;">
+                                <h6 class="rounded">Average Steps : ${steps.week_avg_s}</h6>
+                            </figure>
+                        </div>
+
+                        <div v-if="steps.week_avg_s > 10000" id="weekly_badge">
+                            <figure class ="center">
+                                <img class= "img-circle" src="../static/images/gold.png" style="width:50px;height:100px;">
+                                <h6 class="rounded">Average Steps : ${steps.week_avg_s}</h6>
+                            </figure>
+                        </div>
+
+                        <div class="container" id="lifetime_badge">
+                            <div class="center">
+                                <img class= "" src="../static/images/lifetime.png" style="width:250px;height:150px;">
+                                <h6> ${steps.lifetime_s}</h6>
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </template>
+
+
+            <template v-if="!user_data_present", key="no_user_data_avail">
+                <div class="container">
+                    <div class="middle max900"  id="get-user-data">
+                    <h2 class="h2-override"> Enter Personal Information:</h2>
+                    <form id="user_form" action="#" v-on:submit.prevent="add_user_data" class="form-horizontal max600" enctype="multipart/form-data" method="post">
+                        <div v-if="!input_img">
+                          Upload a picture: 
+                          <input type="file" name="uploadpic" accept="image/*" @change="onFileChange">
+                        </div>
+                        <div v-else>
+                           Click on picture to remove:
+                           <div class="square">
+                            <img :src="input_img" @click="removeImage"/>
+                           </div>
+                        </div>
+                        <div id="other_inputs">
+                        Date of Birth:
+                        <input type="date" name="dob" v-model.lazy="input_dob">
+                        Sex:
+                        <select name="sex" v-model.lazy="input_sex">
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                            <option value="none">Won't disclose</option>
+                        </select>
+                        Height (inches):
+                        <input type="number" name="height" min="0" max="100" step="1" value="72" v-model.lazy="input_height">
+                        Weight (lbs):
+                        <input type="number" name="weight" min="0" max="500" step="1" value="200" v-model.lazy="input_weight">
+                        Target Steps:
+                        <input type="number" name="target_steps" min="5000"
+                        max="15000" step="1000" value="10000"
+                        v-model.lazy="input_steps_target">
+
+                        Target Weight:
+                        <input type="number" name="target_weight" min="0"
+                        max="500" step="1" value="150"
+                        v-model.lazy="input_weight_target">
+                        <div class="form-group" id="submit_user_form__row">
+                            <div align="right">
+                                <input class="post-button" id="add_user_form_submit" type="submit" value="Submit" />
+                                <input type="button" name="link-fitbit" value="Link with fitbit" v-on:click="redirect_fitbit()" />
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+
+            </template>
+
+            <template v-if="page=='edit_profile'", key="no_user_data_avail">
+                <div class="container">
+                    <div class="middle max900"  id="get-user-data">
+                    <h2 class="h2-override"> Enter Personal Information:</h2>
+                    <form id="user_form" action="#" v-on:submit.prevent="add_user_data" class="form-horizontal max600" enctype="multipart/form-data" method="post">
+                        <div v-if="!input_img">
+                          Upload a picture:
+                          <input type="file" name="uploadpic" accept="image/*" @change="onFileChange">
+                        </div>
+                        <div v-else>
+                           Click on picture to remove:
+                           <div class="square">
+                            <img :src="input_img" @click="removeImage"/>
+                           </div>
+                        </div>
+                        <div id="other_inputs">
+                        Date of Birth:
+                        <input type="date" name="dob" v-model.lazy="input_dob">
+                        Sex:
+                        <select name="sex" v-model.lazy="input_sex">
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                            <option value="none">Won't disclose</option>
+                        </select>
+                        Height (inches):
+                        <input type="number" name="height" min="0" max="100" step="1" value="72" v-model.lazy="input_height">
+                        Weight (lbs):
+                        <input type="number" name="weight" min="0" max="500" step="1" value="200" v-model.lazy="input_weight">
+                        Target Steps:
+                        <input type="number" name="target_steps" min="5000"
+                        max="15000" step="1000" value="10000"
+                        v-model.lazy="input_steps_target">
+
+                        Target Weight:
+                        <input type="number" name="target_weight" min="0"
+                        max="500" step="1" value="150"
+                        v-model.lazy="input_weight_target">
+                        <div class="form-group" id="submit_user_form__row">
+                            <div align="right">
+                                <input type="button" name="return-home" value="Return to Home" v-on:click="goto('activity')" />
+                                <input class="post-button" id="add_user_form_submit" type="submit" value="Submit" />
+                                <input type="button" name="link-fitbit" value="Link with fitbit" v-on:click="redirect_fitbit()" />
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+
+            </template>
+        </template>
+
+
+        <template v-if="!logged_in", key="not_login">
+            <div class="container middle max900 morepadded" id="show-all-data" >
+
+                    <div class="card" style="width:900px; height:450px">
+                        <div>
+                            <div class="white padded rounded" position="middle">
+                                <div class="logo">
+                                </div>
+                                <div class="tagline">
+                                </div>
+                            </div>
+
+                            <div class="container white morepadded rounded">
+
+                                <div class="third">
+                                    <img class="small_img" src="../static/images/fitbit.png">
+                                </div>
+                                <div class="third">
+                                    <img class="small_img" src="../static/images/test_img.png">
+                                </div>
+                                <div class="third">
+                                    <img class="small_img" src="../static/images/apple-watch-logo.png">
+                                </div>
+                                <div class = "center extra-pad ">
+                                    <h3>Stronger together !</h3>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+        </template>
+
+    </div>
+</div>
+
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>

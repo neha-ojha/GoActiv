@@ -1,0 +1,237 @@
+.colorful {
+  color: $clrHilight;
+}
+
+.top-header {
+  margin-right: 30px;
+}
+
+.h2-override {
+  margin-top: 0px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.max600 {
+  max-width: 600px;
+}
+.morepadded {
+  padding:50px 100px
+}
+.user-data {
+    padding-top: 30px;
+    font-family: verdana;
+    font-size: 16px;
+    font-weight: lighter;
+    border: 2px solid blue;
+    border-radius: 10px;
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: rgb(196, 208, 214); // Old browsers
+    //@include filter-gradient(#edf9ff, #d8e4ea, horizontal); // IE6-9
+    //@include background-image(linear-gradient(left, rgb(234, 249, 255) 48%, rgb(162, 183, 189) 48%, rgb(153, 185, 191) 100%));
+    color: #3660b0;
+}
+
+.user-image {
+  padding-top: 20px;
+  align:left;
+}
+
+.logo{
+  padding-top: 200px;
+  height:115px; /*height of your image*/
+  content:url('../images/logo.png');
+  padding:10px; /*if your want to padding */
+
+}
+
+.tagline{
+  padding-top: 100px;
+  margin: 10px 15px 15px 300px;
+  height:60px; /*height of your image*/
+  content:url('../images/tagline.png');
+  padding:10px; /*if your want to padding */
+
+}
+.fitbit-icon{
+  padding-left:100px;
+  max-width: 50%;
+}
+
+.square {
+    height: 150px;
+    width: 150px;
+}
+
+.small_square {
+    height: 50px;
+    width: 50px;
+}
+
+.big_square {
+    height: 325px;
+    width: 300px;
+}
+
+.pad_top{
+  padding-top:10px;
+  width:150px;
+}
+
+.pad_left_top{
+  padding-left:30px;
+  padding-top:30px;
+}
+
+.pad_left{
+  padding-left:70px;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.background {
+    fill: #FFFFFF;
+    fill-opacity: 0.01;
+}
+
+.component {
+    fill: #e1e1e1;
+}
+
+.component .label {
+    font-family: Myriad, "Helvetic Neue", Helvetica, Arial;
+    text-anchor: middle;
+    fill: #0000FF;
+}
+
+.arc {
+    stroke-weight:0.1;
+    fill: #4e8fff;
+}
+
+
+.arc2 {
+    stroke-weight:0.1;
+    fill: #3660b0;
+}
+
+
+.label {
+    font-family:  Myriad, "Helvetic Neue", Helvetica, Arial;
+    text-anchor: middle;
+}
+
+.radial-svg {
+    margin-left: 70px;
+    height: 300px;
+    width: 300px;
+}
+
+#test .arc2 {
+            stroke-weight: 0.1;
+            fill: #3660b0;
+        }
+
+#outer {
+            background: #FFFFFF;
+            border-radius: 5px;
+            color: #000;
+        }
+.selectedRadial {
+            border-radius: 3px;
+            background: #f4f4f4;
+            color: #000;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            border: 1px solid rgba(200,200,200,0.85);
+}
+
+.radial {
+  border-radius: 3px;
+  background: #FFFFFF;
+  color: #000;
+}
+
+.modebar {
+  display: none;
+}
+
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
+.small_img {
+  padding-top: 200px;
+  height: 150px; /*height of your image*/
+  padding: 10px; /*if your want to padding */
+}
+.extra-pad {
+  padding-top: 100px;
+  color: #297bfe;
+}
+.img-circle {
+    border-radius: 15%;
+}
+.padding_right {
+  padding-right: 15px;
+}
+
+.circle {
+  padding-top: 200px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  font-size: 10px;
+  color: #fff;
+  line-height: 100px;
+  text-align: center;
+  background: #000
+}
+
+.fr {
+  text-align: center;
+}
+
+.row1 {
+  height: 52px;
+  width: 100%;
+  background: #ffcc99;
+  border: 1px solid black;
+  border-radius: 5px;
+  display:table;
+  table-layout: fixed;
+}
+.friend_data_row {
+  display:table-cell;
+  vertical-align:middle;
+  font-size: 120%;
+  max-width: 130px;
+  width: 2%;
+}
+.friend_data_bold {
+  font-weight: bold;
+}
+.h5_o1 {
+  margin-left: 95px;
+}
+.h5_o2 {
+  margin-left:70px;
+}
+.fr_name {
+    font-weight: bold;
+    position : relative;
+    top      : -30px;
+    left: -40px;
+}
+.fr_thumb {
+    position: relative;
+    left: 5px;
+}
